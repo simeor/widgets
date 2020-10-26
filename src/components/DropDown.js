@@ -3,17 +3,31 @@ import React, {useState, useEffect, useRef} from 'react';
 const DropDown = ({options, selected, onSelectedChange}) =>{
 
   const [open, setOpen] = useState(false);
+  const [color, setColor]= useState("");
   const ref = useRef();
 
   // close dropdown when click outide of it
   useEffect(() => {
-    document.body.addEventListener('click', (e) => {
+
+    const onBodyClick = (e) => {
+      // if click element on dropdown
       if (ref.current.contains(e.target)){
         return;
       }
       setOpen(false)
-    });
+    };
+    document.body.addEventListener('click', onBodyClick);
+
+    //clean up
+    return () => {
+      document.body.removeEventListener('click', onBodyClick)
+    }
   }, []);
+
+  const onDropdownClick = (option) => {
+    setColor(option.value);
+    onSelectedChange(option);
+  }
 
   const renderdOptions = options.map((option) => {
 
@@ -21,7 +35,7 @@ const DropDown = ({options, selected, onSelectedChange}) =>{
       return null;
     }
     return(
-        <div className="item" key={option.value} onClick={() => onSelectedChange(option)}>
+        <div className="item" key={option.value} onClick={() => onDropdownClick(option)}>
           {option.label}
         </div>
       )
@@ -37,6 +51,8 @@ const DropDown = ({options, selected, onSelectedChange}) =>{
           <div className={`menu ${open ?'visible transition' : ''}`}>{renderdOptions}</div>
         </div>
       </div>
+      <h3 style={{color: `${color}`}}>Sample Text</h3>
+
     </div>
   );
 }
