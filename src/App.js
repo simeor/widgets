@@ -2,7 +2,9 @@ import React, {useState} from 'react';
 import Accordion from './components/Accordion';
 import Search from './components/Search';
 import DropDown from './components/DropDown';
-import Translate from './components/Translate'
+import Translate from './components/Translate';
+import Route from './components/Route';
+
 
 const items = [
   {
@@ -34,12 +36,27 @@ const options = [
   }
 ]
 
+
 export default () => {
   const [selected, setSelected] = useState(options[0]);
 
   return(
+    // Route is done via component not react-router-dom
     <div>
-      <Translate />
+      <Route path="/" >
+        <Accordion items={items}/>
+      </Route>
+      <Route path="/list" >
+        <Search />
+      </Route>
+      <Route path="/dropdown" >
+        <DropDown label="select a colour" selected={selected}
+          options={options} onSelectedChange={setSelected}
+          sampletext="Sample text"/>
+      </Route>
+      <Route path="/translate" >
+        <Translate />
+      </Route>
     </div>
   )
 };
