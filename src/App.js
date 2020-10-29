@@ -4,7 +4,10 @@ import Search from './components/Search';
 import DropDown from './components/DropDown';
 import Translate from './components/Translate';
 import Route from './components/Route';
+import Header from './components/Header';
 
+
+// example data
 
 const items = [
   {
@@ -43,6 +46,7 @@ export default () => {
   return(
     // Route is done via component not react-router-dom
     <div>
+      <Header />
       <Route path="/" >
         <Accordion items={items}/>
       </Route>
